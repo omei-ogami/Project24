@@ -14,13 +14,13 @@ const initialCategories = {
 };
 
 // For UI testing
-User user1 = const User(name: 'Davit', phone: '0000-0000', email: 'davit@email.com');
-User user2 = const User(name: 'Hsu Yu-Hao', phone: '0905-114-514', email: '810659@omi.com');
+User user1 = User(name: 'Davit', phone: '0000-0000', email: 'davit@email.com');
+User user2 = User(name: 'Hsu Yu-Hao', phone: '0905-114-514', email: '810659@omi.com');
 
 // For UI testing
 var testActivity = [
   Activity(
-    id: 'Music-1', 
+    activityId: 'Music-1', 
     category: 'Music', 
     title: 'Concert', 
     location: 'Airport, Japan', 
@@ -33,7 +33,7 @@ var testActivity = [
     attendance: [user1, user2],
   ),
   Activity(
-    id: 'Game-1', 
+    activityId: 'Game-1', 
     category: 'Game', 
     title: 'Software Design', 
     location: 'Jail, nthu', 
@@ -46,7 +46,7 @@ var testActivity = [
     attendance: [user2],
   ),
   Activity(
-    id: 'Game-2', 
+    activityId: 'Game-2', 
     category: 'Game', 
     title: '1d', 
     location: 'Right', 

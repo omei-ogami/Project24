@@ -15,7 +15,7 @@ class ActivitiesPage extends StatelessWidget {
 
   void _selectActivity(BuildContext context, Activity activity) {
     final nav = Provider.of<NavigationService>(context, listen: false);
-    nav.goActivityInfoOnCategory(categoryId: categoryId, activityId: activity.id);
+    nav.goActivityInfoOnCategory(categoryId: categoryId, activityId: activity.activityId);
   }
 
   @override
@@ -30,9 +30,11 @@ class ActivitiesPage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () =>
-              Provider.of<NavigationService>(context, listen: false)
-                .goCreateActivity(),
+            onPressed: () {
+              final nav = Provider.of<NavigationService>(context, listen: false);
+              //final viewModel = Provider.of<>(context, listen: false);
+              nav.goCreateActivity();
+            }
           ),
         ],
       ),
