@@ -3,31 +3,35 @@ import 'package:go_router/go_router.dart';
 import 'package:project_24/widgets/activities_page.dart';
 import 'package:project_24/widgets/home_page.dart';
 import 'package:project_24/widgets/activity_info_dialog.dart';
+import 'package:project_24/view_models/activity_vm.dart';
+import 'package:provider/provider.dart';
 
 final routerConfig = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/categories',
       pageBuilder: (context, state) => const NoTransitionPage<void>(
-        child: HomePage(selectedTab: HomeTab.categories)),
+        child: HomePage(selectedTab: HomeTab.categories)
+      ),
       routes: <RouteBase>[
-        GoRoute(
-          path: ':categoryId/activities',
-          builder: (context, state) => 
-            ActivitiesPage(categoryId: state.pathParameters['categoryId']!), 
+        ShellRoute(
+          builder: (BuildContext context, GoRouterState state, Widget child) {
+            return ChangeNotifierProvider(
+              create: (_) => ActivityViewModel(),
+              child: child,
+            );
+          },
           routes: <RouteBase>[
             GoRoute(
-              path: ':activityId',
-              builder: (context, state) =>
-                ActivityInfoDialog(activityId: state.pathParameters['activityId']!),
-            ),
-          ],
+              path: ':categoryId/activities',
+              builder: (context, state) {
+                return ActivitiesPage(
+                  categoryId: state.pathParameters['categoryId']!
+                );
+              }
+            )
+          ]
         ),
-        GoRoute(
-          path: 'create',
-          pageBuilder: (context, state) => const NoTransitionPage<void>(
-            child: HomePage(selectedTab: HomeTab.categories)),
-        )
       ],
     ),
   ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_24/main.dart';
 import 'package:project_24/models/activity.dart';
+import 'package:project_24/view_models/activity_vm.dart';
 import 'package:provider/provider.dart';
 import 'package:project_24/services/navigation.dart';
 
@@ -20,8 +21,8 @@ class ActivityInfoDialog extends StatelessWidget {
       nav.backActivitiesOnInfo();
     }
 
-    final activity = Provider.of<List<Activity>>(context, listen: false)
-      .firstWhere((activityItem) => activityItem.id == activityId); 
+    final activity = Provider.of<ActivityViewModel>(context, listen: false)
+      .activities.firstWhere((activityItem) => activityItem.id == activityId); 
 
     return Scaffold(
       appBar: AppBar(title: Text(activity.title),),
@@ -75,9 +76,9 @@ class ActivityInfoDialog extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(activity.organizer.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                      Text('    # ${activity.organizer.phone}', style: const TextStyle(fontSize: 20),),
-                      Text('    # ${activity.organizer.email}', style: const TextStyle(fontSize: 20),),
+                      Text(activity.organizer, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                      Text('    # ${activity.organizer}', style: const TextStyle(fontSize: 20),),
+                      Text('    # ${activity.organizer}', style: const TextStyle(fontSize: 20),),
                     ],
                   )
                 ),

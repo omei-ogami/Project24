@@ -29,8 +29,8 @@ var testActivity = [
     intro: 'Personally, the concert means a lot to me. To sum up, after the above discussion, the meaning of the concert is actually hidden in our lives, why does the concert happen?', 
     capacity: 6, 
     people: 2, 
-    organizer: user1, 
-    attendance: [user1, user2],
+    organizer: 'user1', 
+    attendance: ['user1', 'user2'],
   ),
   Activity(
     activityId: 'Game-1', 
@@ -42,8 +42,8 @@ var testActivity = [
     intro: 'Kill me', 
     capacity: 100, 
     people: 1, 
-    organizer: user2, 
-    attendance: [user2],
+    organizer: 'user2', 
+    attendance: ['user2'],
   ),
   Activity(
     activityId: 'Game-2', 
@@ -55,7 +55,7 @@ var testActivity = [
     intro: 'I had recently worked on developing a nested navigation feature with a persistent bottom navigation bar using go_router and it’s new feature ShellRoute and it works like a charm.', 
     capacity: 9, 
     people: 2, 
-    organizer: user1, 
-    attendance: [user1, user2],
+    organizer: 'user1', 
+    attendance: ['user1', 'user2'],
   ),
 ];

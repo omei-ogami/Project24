@@ -27,8 +27,8 @@ class Activity {
   final List<String> tags;
   final int capacity;
   final int people;
-  final User organizer;
-  final List<User> attendance;
+  final String organizer;
+  final List<String> attendance;
 
   Activity._({
     required this.id,
@@ -52,13 +52,13 @@ class Activity {
       category: map['category'], 
       title: map['title'], 
       location: map['location'], 
-      tags: map['tags'], 
+      tags: List<String>.from(map['tags'] ?? []),
       intro: map['intro'], 
       time: map['time'], 
       capacity: map['capacity'], 
       people: map['people'], 
       organizer: map['organizer'], 
-      attendance: map['attendance'],
+      attendance: List<String>.from(map['attendance'] ?? []),
     );
   }
 

@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '555742466692',
     projectId: 'project24-fdae5',
     storageBucket: 'project24-fdae5.appspot.com',
+    iosClientId: '555742466692-tc5s39j19vrdnluptke476nuii38a768.apps.googleusercontent.com',
     iosBundleId: 'com.example.project24',
   );
 
@@ -72,6 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '555742466692',
     projectId: 'project24-fdae5',
     storageBucket: 'project24-fdae5.appspot.com',
+    iosClientId: '555742466692-tc5s39j19vrdnluptke476nuii38a768.apps.googleusercontent.com',
     iosBundleId: 'com.example.project24',
   );
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_24/data/testing_data.dart';
 import 'package:project_24/models/activity.dart';
 import 'activities.dart';
+import 'package:project_24/view_models/activity_vm.dart';
 import 'package:project_24/services/navigation.dart';
 import 'package:provider/provider.dart';
 
@@ -21,8 +22,8 @@ class ActivitiesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final category = initialCategories[categoryId]!;
-    List<Activity> allActivity = Provider.of<List<Activity>>(context);
-    final activitiesShown = allActivity
+    ActivityViewModel allActivity = Provider.of<ActivityViewModel>(context);
+    final activitiesShown = allActivity.activities
       .where((item) => item.category.contains(category.title)).toList();
     return Scaffold(
       appBar: AppBar(
@@ -32,16 +33,18 @@ class ActivitiesPage extends StatelessWidget {
             icon: const Icon(Icons.add),
             onPressed: () {
               final nav = Provider.of<NavigationService>(context, listen: false);
-              //final viewModel = Provider.of<>(context, listen: false);
+              final viewModel = Provider.of<ActivityViewModel>(context, listen: false);
               nav.goCreateActivity();
             }
           ),
         ],
       ),
-      body: Activities(
-        activities: activitiesShown,
-        onSelectedActivity: _selectActivity,
-      ),
+      body: Consumer<ActivityViewModel>(
+        builder: (context, viewModel, _) {
+          print(viewModel.activities);
+          return Activities(activities: viewModel.activities, onSelectedActivity: _selectActivity);
+        },
+      )
     );
   }
 }

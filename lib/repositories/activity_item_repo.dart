@@ -9,14 +9,15 @@ class ActivityItemRepo {
 
   Stream<List<Activity>> streamActivity() {
     return _db
-      .collection('apps/activity-list')
-      .orderBy('createdDate', descending: true)
-      .snapshots()
-      .map((snapshot) {
-        return snapshot.docs.map((doc) 
-          => Activity.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList();
-      }
-    );
+        .collection('apps/dating-app/activity-list')
+        .snapshots()
+        .map((snapshot) {
+      print(snapshot.docs.length);
+      return snapshot.docs
+          .map((doc)
+            => Activity.fromMap(doc.data() as Map<String, dynamic>, doc.id))
+          .toList();
+    });
   }
 
   Future<String> addItem(Activity item) async {
@@ -24,7 +25,7 @@ class ActivityItemRepo {
     itemMap.remove('id');
     itemMap['createdDate'] = FieldValue.serverTimestamp();
     DocumentReference docRef = await _db
-      .collection('apps/activity-list')
+      .collection('apps/dating-app/activity-list')
       .add(itemMap);
     return docRef.id;
   }
