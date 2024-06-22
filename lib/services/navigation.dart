@@ -28,7 +28,19 @@ final routerConfig = GoRouter(
                 return ActivitiesPage(
                   categoryId: state.pathParameters['categoryId']!
                 );
-              }
+              },
+              routes: <RouteBase>[
+                GoRoute(
+                  path: ':activityId',
+                  builder: (context, state) =>
+                    ActivityInfoDialog(activityId: state.pathParameters['activityId']!),
+                ),
+              ],
+            ),
+            GoRoute(
+              path: 'create',
+              pageBuilder: (context, state) => const NoTransitionPage<void>(
+                child: HomePage(selectedTab: HomeTab.categories)),
             )
           ]
         ),

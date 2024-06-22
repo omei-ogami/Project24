@@ -21,8 +21,9 @@ class ActivityInfoDialog extends StatelessWidget {
       nav.backActivitiesOnInfo();
     }
 
+
     final activity = Provider.of<ActivityViewModel>(context, listen: false)
-      .activities.firstWhere((activityItem) => activityItem.id == activityId); 
+      .activities.firstWhere((activityItem) => activityItem.activityId == activityId); 
 
     return Scaffold(
       appBar: AppBar(title: Text(activity.title),),

@@ -4,4 +4,4 @@
 * Others see `model/activity.dart` ans `activity_item_repo`
 
 # Firebase is available now !
-But the activity info is repair now, i will set the router later.
+
