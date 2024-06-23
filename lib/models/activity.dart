@@ -4,7 +4,7 @@ import 'package:project_24/models/user.dart';
 
 class Activity {
   Activity({
-    required this.activityId,
+    this.activityId,
     required this.category,
     required this.title,
     required this.location,
@@ -18,7 +18,7 @@ class Activity {
   });
 
   String? id;
-  final String activityId;
+  String? activityId;
   final String category;
   final String title;
   final String location;
@@ -32,7 +32,7 @@ class Activity {
 
   Activity._({
     required this.id,
-    required this.activityId,
+    this.activityId,
     required this.category,
     required this.title,
     required this.location,

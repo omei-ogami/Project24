@@ -9,10 +9,10 @@ class ActivityInfoDialog extends StatelessWidget {
   const ActivityInfoDialog({
     super.key,
     required this.categoryId,
-    required this.activityId,
+    required this.id,
   });
 
-  final String activityId, categoryId;
+  final String id, categoryId;
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +24,12 @@ class ActivityInfoDialog extends StatelessWidget {
 
     void _join(){
       final nav = Provider.of<NavigationService>(context, listen: false);
-      nav.goActivityChatroom(categoryId: categoryId, activityId: activityId);
+      nav.goActivityChatroom(categoryId: categoryId, id: id);
     }
 
 
     final activity = Provider.of<ActivityViewModel>(context, listen: false)
-      .activities.firstWhere((activityItem) => activityItem.activityId == activityId); 
+      .activities.firstWhere((activityItem) => activityItem.id == id); 
 
     return Scaffold(
       appBar: AppBar(title: Text(activity.title),),

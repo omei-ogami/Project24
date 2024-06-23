@@ -10,9 +10,9 @@ import 'package:project_24/view_models/activity_vm.dart';
 
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key, required this.activityId});
+  const ChatPage({super.key, required this.id});
 
-  final String activityId; 
+  final String id; 
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -47,9 +47,6 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
 
-    final currentActivity = Provider.of<ActivityViewModel>(context, listen: false)
-      .activities.firstWhere((activityItem) => activityItem.activityId == widget.activityId); 
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Group Chat'),
@@ -73,7 +70,7 @@ class _ChatPageState extends State<ChatPage> {
           const Expanded(
             child: MessageList(),
           ),
-          NewMessageBar(id: currentActivity.id!),
+          NewMessageBar(id: widget.id),
         ],
       ),
     );

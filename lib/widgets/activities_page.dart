@@ -16,7 +16,7 @@ class ActivitiesPage extends StatelessWidget {
 
   void _selectActivity(BuildContext context, Activity activity) {
     final nav = Provider.of<NavigationService>(context, listen: false);
-    nav.goActivityInfoOnCategory(categoryId: categoryId, activityId: activity.activityId);
+    nav.goActivityInfoOnCategory(categoryId: categoryId, id: activity.id!);
   }
 
   @override

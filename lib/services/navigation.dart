@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project_24/widgets/activities_page.dart';
+import 'package:project_24/widgets/activity_item.dart';
 import 'package:project_24/widgets/home_page.dart';
 import 'package:project_24/widgets/activity_info_dialog.dart';
 import 'package:project_24/view_models/activity_vm.dart';
@@ -12,6 +13,7 @@ import 'package:project_24/models/user.dart';
 import 'package:project_24/widgets/auth_page.dart';
 import 'package:project_24/services/authentication.dart';
 import 'package:project_24/services/push_messaging.dart';
+import 'package:project_24/widgets/create_activity.dart';
 
 final routerConfig = GoRouter(
   routes: <RouteBase>[
@@ -64,9 +66,9 @@ final routerConfig = GoRouter(
                   },
                   routes: <RouteBase>[
                     GoRoute(
-                      path: ':activityId',
+                      path: ':id',
                       builder: (context, state) =>
-                        ActivityInfoDialog(categoryId: state.pathParameters['categoryId']!, activityId: state.pathParameters['activityId']!),
+                        ActivityInfoDialog(categoryId: state.pathParameters['categoryId']!, id: state.pathParameters['id']!),
                       routes: <RouteBase>[
                         ShellRoute(
                           builder: (context, state, child) {
@@ -76,15 +78,14 @@ final routerConfig = GoRouter(
                               debugPrint('Warning: ShellRoute should not be built without a user');
                               return const SizedBox.shrink();
                             }
-                            final currentActivity = Provider.of<ActivityViewModel>(context, listen: false)
-                                .activities.firstWhere((activityItem) => activityItem.activityId == state.pathParameters['activityId']); 
+                            //print(state.pathParameters['id']);
                             return MultiProvider(
                               providers: [
                                 ChangeNotifierProvider<MeViewModel>(
                                   create: (_) => MeViewModel(myId),
                                 ),
                                 ChangeNotifierProvider<AllMessagesViewModel>(
-                                  create: (_) => AllMessagesViewModel(id: currentActivity.id!),
+                                  create: (_) => AllMessagesViewModel(id: state.pathParameters['id']!),
                                 ),
                               ],
                               child: child,
@@ -124,7 +125,7 @@ final routerConfig = GoRouter(
                                         child: Text('Error loading user data'),
                                       );
                                     }
-                                    return ChatPage(activityId: state.pathParameters['activityId']!,);
+                                    return ChatPage(id: state.pathParameters['id']!,);
                                   },
                                 ));
                               },
@@ -138,13 +139,13 @@ final routerConfig = GoRouter(
                 GoRoute(
                   path: 'create',
                   pageBuilder: (context, state) => const NoTransitionPage<void>(
-                    child: HomePage(selectedTab: HomeTab.categories)),
+                    child: CreateActivity(),
+                  )
                 )
               ]
             ),
           ],
         ),
-        
       ],
     ),
   ],
@@ -195,20 +196,24 @@ class NavigationService {
   }
 
   void goActivityInfoOnCategory(
-      {required String categoryId, required String activityId}) {
-    _router.go('/categories/$categoryId/activities/$activityId');
+      {required String categoryId, required String id}) {
+    _router.go('/categories/$categoryId/activities/$id');
   }
 
   void backActivitiesOnInfo() {
     _router.pop();
   }
 
-  void goActivityChatroom({required String categoryId, required String activityId}) {
-    _router.go('/categories/$categoryId/activities/$activityId/chat');
+  void goActivityChatroom({required String categoryId, required String id}) {
+    _router.go('/categories/$categoryId/activities/$id/chat');
   }
 
   void goCreateActivity() {
     _router.go('/categories/create');
+  }
+
+  void goActivitieOnCreatePage() {
+    _router.pop();
   }
 
   void goNewPage() { // New method to navigate to the new page
