@@ -16,10 +16,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final nav = Provider.of<NavigationService>(context, listen: false);
     final List<Map<String, dynamic>> tabs = [
       {
-        'page': HomeCategoriesTab(),
+        'page': const HomeCategoriesTab(),
         'title': 'Categories',
       },
       {
@@ -37,7 +37,14 @@ class HomePage extends StatelessWidget {
       // drawer: pages (?)
       body: tabs[selectedTab.index]['page'],
       bottomNavigationBar: BottomNavigationBar(
-        // onTap: 
+        onTap: (index) {
+          // setState(() {
+          //   selectedTab = HomeTab.values[index];
+          // });
+          if (index == 2) { // Assuming 'User' is the third tab (index 2)
+            nav.goNewPage(); // Navigate to the new page
+          }
+        }, 
         currentIndex: selectedTab.index,
         backgroundColor: Colors.lime.shade100,
         items: const [

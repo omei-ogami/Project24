@@ -5,52 +5,160 @@ import 'package:project_24/widgets/home_page.dart';
 import 'package:project_24/widgets/activity_info_dialog.dart';
 import 'package:project_24/view_models/activity_vm.dart';
 import 'package:provider/provider.dart';
+import 'package:project_24/widgets/chat_page.dart';
+import 'package:project_24/view_models/me_vm.dart';
+import 'package:project_24/view_models/all_messages_vm.dart';
+import 'package:project_24/models/user.dart';
+import 'package:project_24/widgets/auth_page.dart';
+import 'package:project_24/services/authentication.dart';
+import 'package:project_24/services/push_messaging.dart';
 
 final routerConfig = GoRouter(
   routes: <RouteBase>[
     GoRoute(
-      path: '/categories',
-      pageBuilder: (context, state) => const NoTransitionPage<void>(
-        child: HomePage(selectedTab: HomeTab.categories)
-      ),
+      path: '/auth',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage<void>(child: AuthPage()),
+    ),
+    ShellRoute(
+      builder: (context, state, child) {
+        final myId = Provider.of<AuthenticationService>(context, listen: false)
+            .checkAndGetLoggedInUserId();
+        if (myId == null) {
+          debugPrint('Warning: ShellRoute should not be built without a user');
+          return const SizedBox.shrink();
+        }
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider<MeViewModel>(
+              create: (_) => MeViewModel(myId),
+            ),
+            ChangeNotifierProvider<AllMessagesViewModel>(
+              create: (_) => AllMessagesViewModel(),
+            ),
+          ],
+          child: child,
+        );
+      },
       routes: <RouteBase>[
-        ShellRoute(
-          builder: (BuildContext context, GoRouterState state, Widget child) {
-            return ChangeNotifierProvider(
-              create: (_) => ActivityViewModel(),
-              child: child,
-            );
-          },
+        GoRoute(
+          path: '/categories',
+          pageBuilder: (context, state) => const NoTransitionPage<void>(
+            child: HomePage(selectedTab: HomeTab.categories)
+          ),
           routes: <RouteBase>[
-            GoRoute(
-              path: ':categoryId/activities',
-              builder: (context, state) {
-                return ActivitiesPage(
-                  categoryId: state.pathParameters['categoryId']!
+            ShellRoute(
+              builder: (BuildContext context, GoRouterState state, Widget child) {
+                return ChangeNotifierProvider(
+                  create: (_) => ActivityViewModel(),
+                  child: child,
                 );
               },
               routes: <RouteBase>[
                 GoRoute(
-                  path: ':activityId',
-                  builder: (context, state) =>
-                    ActivityInfoDialog(activityId: state.pathParameters['activityId']!),
+                  path: ':categoryId/activities',
+                  builder: (context, state) {
+                    return ActivitiesPage(
+                      categoryId: state.pathParameters['categoryId']!
+                    );
+                  },
+                  routes: <RouteBase>[
+                    GoRoute(
+                      path: ':activityId',
+                      builder: (context, state) =>
+                        ActivityInfoDialog(activityId: state.pathParameters['activityId']!),
+                    ),
+                  ],
+                ),
+                GoRoute(
+                  path: 'create',
+                  pageBuilder: (context, state) => const NoTransitionPage<void>(
+                    child: HomePage(selectedTab: HomeTab.categories)),
+                )
+              ]
+            ),
+          ],
+        ),
+        ShellRoute(
+          builder: (context, state, child) {
+            final myId = Provider.of<AuthenticationService>(context, listen: false)
+                .checkAndGetLoggedInUserId();
+            if (myId == null) {
+              debugPrint('Warning: ShellRoute should not be built without a user');
+              return const SizedBox.shrink();
+            }
+            return MultiProvider(
+              providers: [
+                ChangeNotifierProvider<MeViewModel>(
+                  create: (_) => MeViewModel(myId),
+                ),
+                ChangeNotifierProvider<AllMessagesViewModel>(
+                  create: (_) => AllMessagesViewModel(),
                 ),
               ],
-            ),
+              child: child,
+            );
+          },
+          routes: [
             GoRoute(
-              path: 'create',
-              pageBuilder: (context, state) => const NoTransitionPage<void>(
-                child: HomePage(selectedTab: HomeTab.categories)),
-            )
-          ]
+              path: '/chat',
+              pageBuilder: (context, state) {
+                final meViewModel = Provider.of<MeViewModel>(context, listen: true);
+
+                // Log out and ask user to log in again for the custom claim to take effect
+                if (meViewModel.isModeratorStatusChanged) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Provider.of<PushMessagingService>(context, listen: false)
+                        .unsubscribeFromAllTopics();
+                    Provider.of<AuthenticationService>(context, listen: false)
+                        .logOut();
+                  });
+                }
+
+                return NoTransitionPage<void>(
+                    child: StreamBuilder<User>(
+                  // Listen to the me state changes
+                  stream: meViewModel.meStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.active ||
+                        snapshot.data == null) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    if (snapshot.hasError) {
+                      debugPrint('Error loading user data: ${snapshot.error}');
+                      return const Center(
+                        child: Text('Error loading user data'),
+                      );
+                    }
+
+                    return ChatPage();
+                  },
+                ));
+              },
+            ),
+          ],
         ),
       ],
     ),
   ],
   initialLocation: '/categories',
-  debugLogDiagnostics: true,
+  debugLogDiagnostics: true, 
   redirect: (context, state) {
     final currentPath = state.uri.path;
+    final isLoggedIn =
+        Provider.of<AuthenticationService>(context, listen: false)
+                .checkAndGetLoggedInUserId() !=
+            null;
+    if (isLoggedIn && currentPath == '/auth') {
+      return '/categories';
+    }
+    if (!isLoggedIn && currentPath != '/auth') {
+      // Redirect to auth page if the user is not logged in
+      return '/auth';
+    }
     if (currentPath == '/') {
       return '/categories';
     }
@@ -94,5 +202,16 @@ class NavigationService {
 
   void goCreateActivity() {
     _router.go('/categories/create');
+  }
+
+  void goNewPage() { // New method to navigate to the new page
+    _router.go('/chat');
+  }
+}
+
+class NewPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChatPage();
   }
 }

@@ -42,7 +42,7 @@ class ActivitiesPage extends StatelessWidget {
       body: Consumer<ActivityViewModel>(
         builder: (context, viewModel, _) {
           print(viewModel.activities);
-          return Activities(activities: viewModel.activities, onSelectedActivity: _selectActivity);
+          return Activities(activities: activitiesShown, onSelectedActivity: _selectActivity);
         },
       )
     );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_24/view_models/activity_vm.dart';
 import 'services/navigation.dart';
+import 'package:project_24/services/push_messaging.dart';
+import 'services/authentication.dart';
 import 'package:project_24/models/activity.dart';
 import 'data/testing_data.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,6 +39,12 @@ class App extends StatelessWidget {
       providers: [
         Provider<NavigationService>(create: (_) => NavigationService()),
         ChangeNotifierProvider<ActivityViewModel>(create: (_) => ActivityViewModel()),
+        Provider<PushMessagingService>(
+          create: (_) => PushMessagingService(),
+        ),
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(),
+        ),
       ],
       child: MaterialApp.router(
         theme: theme,

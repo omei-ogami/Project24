@@ -12,7 +12,6 @@ class ActivityItemRepo {
         .collection('apps/dating-app/activity-list')
         .snapshots()
         .map((snapshot) {
-      print(snapshot.docs.length);
       return snapshot.docs
           .map((doc)
             => Activity.fromMap(doc.data() as Map<String, dynamic>, doc.id))

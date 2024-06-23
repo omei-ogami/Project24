@@ -18,27 +18,11 @@ class ActivityViewModel with ChangeNotifier {
     _itemsSubscription = _activityItemRepo.streamActivity().listen(
       (items) {
         _activities = items;
-        print('Receive');
         notifyListeners(); // Notify listeners about the change
-        _printActivities();
-      },
-      onError: (error) {
-        // Capture and print any errors during stream subscription
-        print("Error in stream subscription: $error");
       }, 
     );
   }
   
-  // debug
-  void _printActivities() {
-    if (_activities.isEmpty) {
-      print("No activities found.");
-    } else {
-      for (var activity in _activities) {
-        print("Activity ID: ${activity.id}, Title: ${activity.title},  Category: ${activity.category}");
-      }
-    }
-  }
   //
 
   // Method to add a new activity

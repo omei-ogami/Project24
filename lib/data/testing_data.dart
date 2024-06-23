@@ -13,9 +13,7 @@ const initialCategories = {
   'c6': Category(id: 'c6', title: 'Travel', icon: Icons.airplane_ticket),
 };
 
-// For UI testing
-User user1 = User(name: 'Davit', phone: '0000-0000', email: 'davit@email.com');
-User user2 = User(name: 'Hsu Yu-Hao', phone: '0905-114-514', email: '810659@omi.com');
+
 
 // For UI testing
 var testActivity = [
