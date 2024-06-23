@@ -4,9 +4,11 @@ import 'package:project_24/models/message.dart';
 class MessageRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Stream<List<Message>> streamMessages() {
+  Stream<List<Message>> streamMessages(String id) {
     return _db
-        .collection('apps/dating-app/messages')
+        .collection('apps/dating-app/activity-list')
+        .doc(id)
+        .collection('messages')
         .orderBy('createdDate', descending: true)
         .snapshots()
         .map((snapshot) {
@@ -16,14 +18,16 @@ class MessageRepository {
     });
   }
 
-  Future<String> addMessage(Message message) async {
+  Future<String> addMessage(Message message, String id) async {
     Map<String, dynamic> messageMap = message.toMap();
     // Remove 'id' because Firestore automatically generates a unique document ID for each new document added to the collection.
     messageMap.remove('id');
     // Ensure 'createdDate' is set by the server to maintain consistency across different clients, independent of local time settings.
     messageMap['createdDate'] = FieldValue.serverTimestamp();
     DocumentReference docRef = await _db
-        .collection('apps/dating-app/messages')
+        .collection('apps/dating-app/activity-list')
+        .doc(id)
+        .collection('messages')
         .add(messageMap); // write to local cache immediately
     return docRef.id;
   }

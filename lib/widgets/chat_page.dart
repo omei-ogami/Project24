@@ -6,10 +6,13 @@ import 'package:project_24/widgets/message_list.dart';
 import 'package:project_24/widgets/new_message_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:project_24/view_models/activity_vm.dart';
 
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+  const ChatPage({super.key, required this.activityId});
+
+  final String activityId; 
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -43,6 +46,10 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final currentActivity = Provider.of<ActivityViewModel>(context, listen: false)
+      .activities.firstWhere((activityItem) => activityItem.activityId == widget.activityId); 
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Group Chat'),
@@ -61,12 +68,12 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
-      body: const Column(
+      body: Column(
         children: [
-          Expanded(
+          const Expanded(
             child: MessageList(),
           ),
-          NewMessageBar(),
+          NewMessageBar(id: currentActivity.id!),
         ],
       ),
     );

@@ -24,7 +24,7 @@ class ActivitiesPage extends StatelessWidget {
     final category = initialCategories[categoryId]!;
     ActivityViewModel allActivity = Provider.of<ActivityViewModel>(context);
     final activitiesShown = allActivity.activities
-      .where((item) => item.category.contains(category.title)).toList();
+      .where((item) => item.category.contains(category.id)).toList();
     return Scaffold(
       appBar: AppBar(
         title: Text(category.title, style: const TextStyle(fontSize: 30),),

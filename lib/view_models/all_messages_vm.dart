@@ -14,9 +14,9 @@ class AllMessagesViewModel with ChangeNotifier {
   bool _isInitializing = true;
   bool get isInitializing => _isInitializing;
 
-  AllMessagesViewModel({MessageRepository? messageRepository})
+  AllMessagesViewModel({MessageRepository? messageRepository, required String id})
       : _messageRepository = messageRepository ?? MessageRepository() {
-    _messagesSubscription = _messageRepository.streamMessages().listen(
+    _messagesSubscription = _messageRepository.streamMessages(id).listen(
       (messages) {
         _isInitializing = false;
         _messages = messages;
@@ -31,8 +31,8 @@ class AllMessagesViewModel with ChangeNotifier {
     super.dispose();
   }
 
-  Future<String> addMessage(Message newMessage) async {
-    return await _messageRepository.addMessage(newMessage);
+  Future<String> addMessage(String id, Message newMessage) async {
+    return await _messageRepository.addMessage(newMessage, id);
   }
 
   Future<void> deleteMessage(String messageId) async {

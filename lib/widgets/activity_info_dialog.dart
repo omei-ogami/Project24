@@ -8,10 +8,11 @@ import 'package:project_24/services/navigation.dart';
 class ActivityInfoDialog extends StatelessWidget {
   const ActivityInfoDialog({
     super.key,
+    required this.categoryId,
     required this.activityId,
   });
 
-  final String activityId;
+  final String activityId, categoryId;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,11 @@ class ActivityInfoDialog extends StatelessWidget {
     void _decline() {
       final nav = Provider.of<NavigationService>(context, listen: false);
       nav.backActivitiesOnInfo();
+    }
+
+    void _join(){
+      final nav = Provider.of<NavigationService>(context, listen: false);
+      nav.goActivityChatroom(categoryId: categoryId, activityId: activityId);
     }
 
 
@@ -88,7 +94,7 @@ class ActivityInfoDialog extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     OutlinedButton(
-                      onPressed: null, 
+                      onPressed: _join, 
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         side: const BorderSide(color: Colors.black, width: 2.0,),

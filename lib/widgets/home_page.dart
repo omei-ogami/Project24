@@ -41,9 +41,9 @@ class HomePage extends StatelessWidget {
           // setState(() {
           //   selectedTab = HomeTab.values[index];
           // });
-          if (index == 2) { // Assuming 'User' is the third tab (index 2)
-            nav.goNewPage(); // Navigate to the new page
-          }
+          //if (index == 2) { // Assuming 'User' is the third tab (index 2)
+          //  nav.goNewPage(); // Navigate to the new page
+          //}
         }, 
         currentIndex: selectedTab.index,
         backgroundColor: Colors.lime.shade100,

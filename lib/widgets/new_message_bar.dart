@@ -5,7 +5,9 @@ import 'package:project_24/view_models/me_vm.dart';
 import 'package:provider/provider.dart';
 
 class NewMessageBar extends StatefulWidget {
-  const NewMessageBar({super.key});
+  const NewMessageBar({super.key, required this.id});
+
+  final String id;
 
   @override
   State<NewMessageBar> createState() {
@@ -43,6 +45,7 @@ class _NewMessageBarState extends State<NewMessageBar> {
     final me = meViewModel.me!;
 
     allMessagesViewModel.addMessage(
+      widget.id, 
       Message(
         text: enteredMessage,
         userId: me.id,
