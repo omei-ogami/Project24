@@ -150,8 +150,7 @@ final routerConfig = GoRouter(
     final currentPath = state.uri.path;
     final isLoggedIn =
         Provider.of<AuthenticationService>(context, listen: false)
-                .checkAndGetLoggedInUserId() !=
-            null;
+                .checkAndGetLoggedInUserId() != null;
     if (isLoggedIn && currentPath == '/auth') {
       return '/categories';
     }

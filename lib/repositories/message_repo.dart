@@ -6,7 +6,7 @@ class MessageRepository {
 
   Stream<List<Message>> streamMessages() {
     return _db
-        .collection('apps/group-chat/messages')
+        .collection('apps/dating-app/messages')
         .orderBy('createdDate', descending: true)
         .snapshots()
         .map((snapshot) {
