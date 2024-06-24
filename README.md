@@ -13,8 +13,6 @@
 * Friends Page
 * Personal Chatroom
 
-# [TODO] AI Bot
-
 # Firebase Structure
 ```
 ___ apps ___ dating-app ___ activity-list _____
@@ -25,3 +23,6 @@ ___ apps ___ dating-app ___ activity-list _____
 
 # Router Navigation 
 ![alt text](image-3.png)
+
+# AI Bot
+![alt text](image-4.png)

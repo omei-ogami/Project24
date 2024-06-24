@@ -9,6 +9,7 @@ import 'package:project_24/widgets/new_message_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:project_24/view_models/activity_vm.dart';
+import 'package:project_24/widgets/AI_chatbot.dart';
 
 
 class ChatPage extends StatefulWidget {
@@ -58,7 +59,7 @@ class _ChatPageState extends State<ChatPage> {
             Provider.of<NavigationService>(context, listen: false)
                 .goHome(tab: HomeTab.categories);
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.keyboard_return,
             // color: Theme.of(context).colorScheme.primary,
           ),
@@ -83,6 +84,7 @@ class _ChatPageState extends State<ChatPage> {
           const Expanded(
             child: MessageList(),
           ),
+          const SuggestionGenerationService(),
           NewMessageBar(id: widget.id),
         ],
       ),
