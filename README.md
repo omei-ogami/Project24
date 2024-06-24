@@ -1,4 +1,4 @@
-# [NEW Feature] Chatroom
+# [NEW Feature] 
 * Google login is available now
 * Hot-reload can direct to the category after login 
 * The activity is able to connect to its own chatroom

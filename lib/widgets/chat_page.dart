@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:project_24/services/authentication.dart';
+import 'package:project_24/services/navigation.dart';
 import 'package:project_24/services/push_messaging.dart';
 import 'package:project_24/view_models/me_vm.dart';
+import 'package:project_24/widgets/home_page.dart';
 import 'package:project_24/widgets/message_list.dart';
 import 'package:project_24/widgets/new_message_bar.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +52,17 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Group Chat'),
+        
+        leading: IconButton(
+          onPressed: () {
+            Provider.of<NavigationService>(context, listen: false)
+                .goHome(tab: HomeTab.categories);
+          },
+          icon: Icon(
+            Icons.keyboard_return,
+            // color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () {

@@ -28,6 +28,16 @@ class ActivitiesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(category.title, style: const TextStyle(fontSize: 30),),
+        leading: IconButton(
+          icon: const Icon(Icons.keyboard_return),
+            onPressed: () {
+              final nav =
+                Provider.of<NavigationService>(context, listen: false);
+              final viewModel =
+                Provider.of<ActivityViewModel>(context, listen: false);
+              nav.backActivitiesOnInfo();
+            }
+          ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),

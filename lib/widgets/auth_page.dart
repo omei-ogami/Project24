@@ -4,6 +4,10 @@ import 'package:project_24/services/authentication.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:project_24/services/navigation.dart';
+import 'package:project_24/widgets/home_page.dart';
+import 'package:provider/provider.dart';
+
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -221,6 +225,8 @@ class _AuthPageState extends State<AuthPage> {
           _isAuthenticating = false;
         });
       }
+      Provider.of<NavigationService>(context, listen: false)
+          .goHome(tab: HomeTab.categories);
     } catch (error) {
       debugPrint('Authentication failed with error: $error');
       if (mounted) {
@@ -252,6 +258,8 @@ class _AuthPageState extends State<AuthPage> {
           _isAuthenticating = false;
         });
       }
+      Provider.of<NavigationService>(context, listen: false)
+          .goHome(tab: HomeTab.categories);
     } catch (error) {
       debugPrint('Google Sign-in failed with error: $error');
       if (mounted) {
