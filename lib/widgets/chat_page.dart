@@ -57,7 +57,7 @@ class _ChatPageState extends State<ChatPage> {
         leading: IconButton(
           onPressed: () {
             Provider.of<NavigationService>(context, listen: false)
-                .goHome(tab: HomeTab.categories);
+                .goHome(tab: HomeTab.user);
           },
           icon: const Icon(
             Icons.keyboard_return,

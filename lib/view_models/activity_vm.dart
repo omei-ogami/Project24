@@ -26,7 +26,13 @@ class ActivityViewModel with ChangeNotifier {
   //
 
   // Method to add a new activity
-  Future<void> addActivity(Activity activity) async {
-    await _activityItemRepo.addItem(activity);
+  Future<String> addActivity(Activity activity) async {
+    String id = await _activityItemRepo.addItem(activity);
+    return id;
+  }
+
+  Future<void> updateAttendance(String id, String userId) async {
+    await _activityItemRepo.addAttendance(id, userId);
+    notifyListeners();
   }
 }

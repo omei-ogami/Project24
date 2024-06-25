@@ -7,6 +7,7 @@ import 'package:flutter_tags_x/flutter_tags_x.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:project_24/view_models/activity_vm.dart';
 import 'package:project_24/models/activity.dart';
+import 'package:project_24/view_models/me_vm.dart';
 // import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
 
 class CreateActivity extends StatefulWidget {
@@ -28,9 +29,11 @@ class _CreateActivityState extends State<CreateActivity> {
 
   // final _stringTagController = StringTagController();
   final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
+  
 
   @override
   Widget build(BuildContext context) {
+    final MeViewmodel = Provider.of<MeViewModel>(context, listen: false);
     return Scaffold(
       //backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
@@ -291,7 +294,7 @@ class _CreateActivityState extends State<CreateActivity> {
                           TextButton(
                             style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Colors.green[400])),
                             onPressed: () =>
-                              setState(() {
+                              setState(() async {
                                 if(_tags.isEmpty) _tags = ['No tags'];
                                 if(_enteredCategory.isEmpty){
                                   showDialog( 
@@ -318,12 +321,13 @@ class _CreateActivityState extends State<CreateActivity> {
                                     time: _enteredTime, 
                                     capacity: _enteredCapacity, 
                                     people: 1, 
-                                    organizer: 'organizer', 
-                                    attendance: ['attendance']
+                                    organizer: MeViewmodel.myId, 
+                                    attendance: [MeViewmodel.myId]
                                   );
-                                  viewModel.addActivity(newActivity);
+                                  String newActivityId = await viewModel.addActivity(newActivity);
+                                  MeViewmodel.addJoinedActivity(newActivityId);
                                   Provider.of<NavigationService>(context, listen: false)
-                                    .goActivitieOnCreatePage();
+                                    .goUserOnCreatePage();
                                   /*
                                   Send these to firebase:
                                   String _enteredTitle

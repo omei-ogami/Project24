@@ -230,7 +230,7 @@ class NavigationService {
     _router.go('/categories/$categoryId/activities/create');
   }
 
-  void goActivitieOnCreatePage() {
+  void goUserOnCreatePage() {
     _router.pop();
   }
 

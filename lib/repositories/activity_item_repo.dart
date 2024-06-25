@@ -28,4 +28,13 @@ class ActivityItemRepo {
       .add(itemMap);
     return docRef.id;
   }
+
+  Future<void> addAttendance(String id, String userId) async {
+    await _db
+        .collection('apps/dating-app/activity-list')
+        .doc(id).update({
+        'attendance': FieldValue.arrayUnion([userId]),
+        'people': FieldValue.increment(1),
+      });
+  }
 }

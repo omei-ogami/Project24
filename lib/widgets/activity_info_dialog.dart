@@ -24,16 +24,19 @@ class ActivityInfoDialog extends StatelessWidget {
       nav.backActivitiesOnInfo();
     }
 
+    final ActivityViewmodel = Provider.of<ActivityViewModel>(context, listen: false);
+    final activity = ActivityViewmodel.activities
+        .firstWhere((activityItem) => activityItem.id == id);
+
     void _join(BuildContext context) async {
-      final _viewmodel = Provider.of<MeViewModel>(context, listen: false);
-      await _viewmodel.addJoinedActivity(id);
+      final MeViewmodel = Provider.of<MeViewModel>(context, listen: false);
+      await MeViewmodel.addJoinedActivity(id);
+      await ActivityViewmodel.updateAttendance(id, MeViewmodel.myId);
       final nav = Provider.of<NavigationService>(context, listen: false);
       nav.goActivityChatroom(categoryId: categoryId, id: id);
     }
 
-    final activity = Provider.of<ActivityViewModel>(context, listen: false)
-        .activities
-        .firstWhere((activityItem) => activityItem.id == id);
+    bool isFull = (activity.people >= activity.capacity);
 
     return Scaffold(
         appBar: AppBar(
@@ -99,9 +102,10 @@ class ActivityInfoDialog extends StatelessWidget {
                         'Members :',
                         style: TextStyle(fontSize: 20),
                       ),
+                      
                       Text(
-                        '    ${activity.people}/${activity.capacity}',
-                        style: const TextStyle(fontSize: 20),
+                        (isFull)? '    ${activity.people}/${activity.capacity} (FULL)' : '    ${activity.people}/${activity.capacity}',
+                        style: TextStyle(fontSize: 20, color: (isFull)? Colors.red : Colors.black),
                       ),
                     ],
                   ),
@@ -152,7 +156,7 @@ class ActivityInfoDialog extends StatelessWidget {
                   children: [
                     OutlinedButton(
                         onPressed: () {
-                          _join(context);
+                          isFull? null : _join(context);
                         },
                         style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(

@@ -6,7 +6,7 @@ import "package:universal_html/html.dart" as html;
 
 /// VAPID key for web push notifications.
 /// FIXME: DO NOT hardcode the VAPID key in production. Store it securely in environment variables using, for example, the `flutter_dotenv` package
-const String vapidKey = 'BF4RyYqjm5NtsEQMMGygxF4cmoUmDpNqmYgRREpGpfx5Z9JavOECz1xajTQyIEPKdl0xCJViQDfE2o_afqhUNjc';
+const String vapidKey = 'BP5Wq7AbOZycTH9acilJHzP8YJEUFZajs4QNyUlgbjP63272MepKAX-2jy_NP1rJDcMscCr5zMw4Dd1IxabfHPw';
 
 /// Annotated as entry point to prevent being tree-shaken in release mode.
 @pragma('vm:entry-point')
