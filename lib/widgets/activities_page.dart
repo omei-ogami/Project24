@@ -5,6 +5,7 @@ import 'activities.dart';
 import 'package:project_24/view_models/activity_vm.dart';
 import 'package:project_24/services/navigation.dart';
 import 'package:provider/provider.dart';
+import 'package:project_24/view_models/me_vm.dart';
 
 class ActivitiesPage extends StatelessWidget {
   const ActivitiesPage({
@@ -24,7 +25,13 @@ class ActivitiesPage extends StatelessWidget {
     final category = initialCategories[categoryId]!;
     ActivityViewModel allActivity = Provider.of<ActivityViewModel>(context);
     final activitiesShown = allActivity.activities
-      .where((item) => item.category.contains(category.id)).toList();
+      .where((item) => item.category.contains(category.id))
+      .toList();
+
+    final _viewmodel = Provider.of<MeViewModel>(context, listen: false);
+    activitiesShown.removeWhere((item) => _viewmodel.me!.joinedActivities.contains(item.id),);
+    print(activitiesShown);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(category.title, style: const TextStyle(fontSize: 30),),
@@ -44,14 +51,14 @@ class ActivitiesPage extends StatelessWidget {
             onPressed: () {
               final nav = Provider.of<NavigationService>(context, listen: false);
               final viewModel = Provider.of<ActivityViewModel>(context, listen: false);
-              nav.goCreateActivity();
+              nav.goCreateActivity(categoryId: categoryId);
             }
           ),
         ],
       ),
       body: Consumer<ActivityViewModel>(
         builder: (context, viewModel, _) {
-          print(viewModel.activities);
+          // print(viewModel.activities);
           return Activities(activities: activitiesShown, onSelectedActivity: _selectActivity);
         },
       )

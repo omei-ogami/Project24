@@ -4,6 +4,9 @@ import 'package:project_24/models/activity.dart';
 import 'package:project_24/view_models/activity_vm.dart';
 import 'package:provider/provider.dart';
 import 'package:project_24/services/navigation.dart';
+import 'package:project_24/models/user.dart' as models;
+import 'package:project_24/repositories/user_repo.dart';
+import 'package:project_24/view_models/me_vm.dart';
 
 class ActivityInfoDialog extends StatelessWidget {
   const ActivityInfoDialog({
@@ -21,7 +24,9 @@ class ActivityInfoDialog extends StatelessWidget {
       nav.backActivitiesOnInfo();
     }
 
-    void _join() {
+    void _join(BuildContext context) async {
+      final _viewmodel = Provider.of<MeViewModel>(context, listen: false);
+      await _viewmodel.addJoinedActivity(id);
       final nav = Provider.of<NavigationService>(context, listen: false);
       nav.goActivityChatroom(categoryId: categoryId, id: id);
     }
@@ -146,7 +151,9 @@ class ActivityInfoDialog extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     OutlinedButton(
-                        onPressed: _join,
+                        onPressed: () {
+                          _join(context);
+                        },
                         style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),

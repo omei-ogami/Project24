@@ -42,4 +42,12 @@ class UserRepository {
         .doc(userId)
         .update({'pushMessagingToken': token});
   }
+
+  Future<void> addActivityToUserList(String userId, String activityId) async {
+    await _db
+        .collection('apps/dating-app/users')
+        .doc(userId).update({
+        'joinedActivities': FieldValue.arrayUnion([activityId]),
+      });
+  }
 }

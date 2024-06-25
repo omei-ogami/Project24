@@ -140,6 +140,8 @@ class AuthenticationService {
       name: name,
       avatarUrl: avatarUrl!,
       logInMethods: logInMethods,
+      friends: [],
+      joinedActivities: [],
     ));
   }
 

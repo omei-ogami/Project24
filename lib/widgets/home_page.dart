@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project_24/data/testing_data.dart';
 import 'home_categories_tab.dart';
+import 'home_friends_tab.dart';
+import 'package:project_24/home_settings_tab.dart';
+import 'home_user_tab.dart';
 import '/services/navigation.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +11,7 @@ enum HomeTab {
   categories,
   friends,
   user,
+  settings
 }
 
 class HomePage extends StatelessWidget {
@@ -23,12 +28,16 @@ class HomePage extends StatelessWidget {
         'title': 'Categories',
       },
       {
-        // 'page': const HomeFriendsTab(),
+        'page':  HomeFriendsTab(friends: dummyFriends),
         'title': 'Friends',
       },
       {
-        // 'page': const HomeUserTab(),
+        'page': const HomeUserTab(),
         'title': 'User',
+      },
+      {
+        'page': const HomeSettingsTab(),
+        'title': 'Settings',
       },
     ];
 
@@ -37,7 +46,9 @@ class HomePage extends StatelessWidget {
       // drawer: pages (?)
       body: tabs[selectedTab.index]['page'],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         onTap: (index) {
+          nav.goHome(tab: HomeTab.values[index]);
           // setState(() {
           //   selectedTab = HomeTab.values[index];
           // });
@@ -59,6 +70,10 @@ class HomePage extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: 'User',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
       ),

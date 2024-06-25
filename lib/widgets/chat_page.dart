@@ -67,10 +67,8 @@ class _ChatPageState extends State<ChatPage> {
         actions: [
           IconButton(
             onPressed: () {
-              Provider.of<PushMessagingService>(context, listen: false)
-                  .unsubscribeFromAllTopics();
-              Provider.of<AuthenticationService>(context, listen: false)
-                  .logOut();
+              Provider.of<NavigationService>(context, listen: false)
+                  .quitChatroomToActivity();
             },
             icon: Icon(
               Icons.exit_to_app,

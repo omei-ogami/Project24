@@ -51,4 +51,10 @@ class MeViewModel with ChangeNotifier {
   Future<void> addMe(User me) async {
     await _userRepository.createOrUpdateUser(me);
   }
+
+  Future<void> addJoinedActivity(String activityId) async { 
+    await _userRepository.addActivityToUserList(_myId, activityId);
+    notifyListeners();
+  }
+
 }

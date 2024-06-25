@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_24/models/activity.dart';
 import 'package:project_24/models/category.dart';
+import 'package:project_24/models/friend.dart';
 import 'package:project_24/models/user.dart';
 
 // Users are not be able to add categories
@@ -12,6 +13,25 @@ const initialCategories = {
   'c5': Category(id: 'c5', title: 'Movie', icon: Icons.movie),
   'c6': Category(id: 'c6', title: 'Travel', icon: Icons.airplane_ticket),
 };
+
+List<Friend> dummyFriends = [
+  Friend(
+    activityId: 'Friend1',
+    userName: 'Alistar',
+    avatarUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/34/AlistarSquare.png'
+  ),
+  Friend(
+    activityId: 'Friend1',
+    userName: 'Gnar',
+    avatarUrl: 'https://i1.sndcdn.com/artworks-000088570910-va8lwm-t500x500.jpg'
+  ),
+  Friend(
+    activityId: 'Friend1',
+    userName: 'Teemo',
+    avatarUrl: 'https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/04/TeemoSquare.png'
+  ),
+];
+  
 
 
 

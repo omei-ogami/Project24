@@ -44,6 +44,24 @@ final routerConfig = GoRouter(
       },
       routes: <RouteBase>[
         GoRoute(
+          path: '/user',
+          pageBuilder: (context, state) => const NoTransitionPage<void>(
+            child: HomePage(selectedTab: HomeTab.user)
+          ),
+        ),
+        GoRoute(
+          path: '/settings',
+          pageBuilder: (context, state) => const NoTransitionPage<void>(
+            child: HomePage(selectedTab: HomeTab.settings)
+          ),
+        ),
+        GoRoute(
+          path: '/friends',
+          pageBuilder: (context, state) => const NoTransitionPage<void>(
+            child: HomePage(selectedTab: HomeTab.friends)
+          ),
+        ),
+        GoRoute(
           path: '/categories',
           pageBuilder: (context, state) => const NoTransitionPage<void>(
             child: HomePage(selectedTab: HomeTab.categories)
@@ -65,6 +83,12 @@ final routerConfig = GoRouter(
                     );
                   },
                   routes: <RouteBase>[
+                    GoRoute(
+                      path: 'create',
+                      pageBuilder: (context, state) => const NoTransitionPage<void>(
+                        child: CreateActivity(),
+                      )
+                    ),
                     GoRoute(
                       path: ':id',
                       builder: (context, state) =>
@@ -136,12 +160,6 @@ final routerConfig = GoRouter(
                     ),
                   ],
                 ),
-                GoRoute(
-                  path: 'create',
-                  pageBuilder: (context, state) => const NoTransitionPage<void>(
-                    child: CreateActivity(),
-                  )
-                )
               ]
             ),
           ],
@@ -208,15 +226,24 @@ class NavigationService {
     _router.go('/categories/$categoryId/activities/$id/chat');
   }
 
-  void goCreateActivity() {
-    _router.go('/categories/create');
+  void goCreateActivity({required String categoryId}) {
+    _router.go('/categories/$categoryId/activities/create');
   }
 
   void goActivitieOnCreatePage() {
     _router.pop();
   }
 
+  void goPreviousPage() {
+    _router.pop();
+  }
+
   void goNewPage() { // New method to navigate to the new page
     _router.go('/chat');
+  }
+
+  void quitChatroomToActivity() {
+    _router.pop();
+    _router.pop();
   }
 }
