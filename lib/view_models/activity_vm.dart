@@ -31,8 +31,13 @@ class ActivityViewModel with ChangeNotifier {
     return id;
   }
 
-  Future<void> updateAttendance(String id, String userId) async {
+  Future<void> addAttendance(String id, String userId) async {
     await _activityItemRepo.addAttendance(id, userId);
+    notifyListeners();
+  }
+
+  Future<void> removeAttendance(String id, String userId) async {
+    await _activityItemRepo.removeAttendance(id, userId);
     notifyListeners();
   }
 }

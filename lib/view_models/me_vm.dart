@@ -57,4 +57,9 @@ class MeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> quitJoinedActivity(String activityId) async { 
+    await _userRepository.removeActivityToUserList(_myId, activityId);
+    notifyListeners();
+  }
+
 }

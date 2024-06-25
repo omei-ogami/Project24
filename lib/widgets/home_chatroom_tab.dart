@@ -7,14 +7,14 @@ import 'package:project_24/services/navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:project_24/view_models/me_vm.dart';
 
-class HomeUserTab extends StatelessWidget {
-  const HomeUserTab({
+class HomeChatroomTab extends StatelessWidget {
+  const HomeChatroomTab({
     super.key,
   });
 
   void _selectActivity(BuildContext context, Activity activity) {
     final nav = Provider.of<NavigationService>(context, listen: false);
-    nav.goActivityChatroom(categoryId: activity.category, id: activity.id!);
+    nav.goActivityChatroom(id: activity.id!);
   }
 
   @override

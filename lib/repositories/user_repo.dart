@@ -50,4 +50,12 @@ class UserRepository {
         'joinedActivities': FieldValue.arrayUnion([activityId]),
       });
   }
+
+  Future<void> removeActivityToUserList(String userId, String activityId) async {
+    await _db
+        .collection('apps/dating-app/users')
+        .doc(userId).update({
+        'joinedActivities': FieldValue.arrayRemove([activityId]),
+      });
+  }
 }

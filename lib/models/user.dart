@@ -8,7 +8,6 @@ class User {
   late final List<LogInMethod> logInMethods;
   String? pushMessagingToken;
   final List<String> joinedActivities;
-  final List<String> friends;
 
   // Read-only fields that can only be set by the system
   bool _isModerator = false;
@@ -21,7 +20,6 @@ class User {
     required this.avatarUrl,
     logInMethods,
     this.pushMessagingToken,
-    required this.friends,
     required this.joinedActivities,
   }) : logInMethods = logInMethods ?? [];
 
@@ -33,7 +31,6 @@ class User {
     logInMethods,
     this.pushMessagingToken,
     isModerator = false,
-    required this.friends,
     required this.joinedActivities,
   })  : logInMethods = logInMethods ?? [],
         _isModerator = isModerator;
@@ -49,7 +46,6 @@ class User {
           .toList(),
       pushMessagingToken: map['pushMessagingToken'],
       isModerator: map['isModerator'],
-      friends: List<String>.from(map['friends'] ?? []),
       joinedActivities: List<String>.from(map['joinedActivities'] ?? []),
     );
   }
@@ -64,7 +60,6 @@ class User {
           logInMethods.map((logInMethod) => logInMethod.name).toList(),
       'pushMessagingToken': pushMessagingToken,
       'isModerator': _isModerator,
-      'friends': friends,
       'joinedActivities': joinedActivities,
     };
   }

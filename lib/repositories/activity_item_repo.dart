@@ -37,4 +37,13 @@ class ActivityItemRepo {
         'people': FieldValue.increment(1),
       });
   }
+
+  Future<void> removeAttendance(String id, String userId) async {
+    await _db
+        .collection('apps/dating-app/activity-list')
+        .doc(id).update({
+        'attendance': FieldValue.arrayRemove([userId]),
+        'people': FieldValue.increment(-1),
+      });
+  }
 }

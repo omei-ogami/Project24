@@ -52,12 +52,12 @@ class _ChatPageState extends State<ChatPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Group Chat'),
+        title: const Text('Friend Chat'),
         
         leading: IconButton(
           onPressed: () {
             Provider.of<NavigationService>(context, listen: false)
-                .goHome(tab: HomeTab.activities);
+                .goHome(tab: HomeTab.friends);
           },
           icon: const Icon(
             Icons.keyboard_return,
@@ -68,7 +68,7 @@ class _ChatPageState extends State<ChatPage> {
           IconButton(
             onPressed: () {
               Provider.of<NavigationService>(context, listen: false)
-                  .goActivityInfoOnChatroom(id: widget.id);
+                  .quitChatroomToActivity();
             },
             icon: Icon(
               Icons.exit_to_app,

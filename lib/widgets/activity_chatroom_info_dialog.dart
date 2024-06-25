@@ -8,35 +8,32 @@ import 'package:project_24/models/user.dart' as models;
 import 'package:project_24/repositories/user_repo.dart';
 import 'package:project_24/view_models/me_vm.dart';
 
-class ActivityInfoDialog extends StatelessWidget {
-  const ActivityInfoDialog({
+class ActivityChatroomInfoDialog extends StatelessWidget {
+  const ActivityChatroomInfoDialog({
     super.key,
-    required this.categoryId,
+    
     required this.id,
   });
 
-  final String id, categoryId;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
-    void _decline() {
-      final nav = Provider.of<NavigationService>(context, listen: false);
-      nav.backActivitiesOnInfo();
-    }
 
     final ActivityViewmodel = Provider.of<ActivityViewModel>(context, listen: false);
     final activity = ActivityViewmodel.activities
         .firstWhere((activityItem) => activityItem.id == id);
 
-    void _join(BuildContext context) async {
+    void _quit(BuildContext context) async {
       final MeViewmodel = Provider.of<MeViewModel>(context, listen: false);
-      await MeViewmodel.addJoinedActivity(id);
-      await ActivityViewmodel.addAttendance(id, MeViewmodel.myId);
+      await MeViewmodel.quitJoinedActivity(id);
+      await ActivityViewmodel.removeAttendance(id, MeViewmodel.myId);
       final nav = Provider.of<NavigationService>(context, listen: false);
-      nav.goActivityChatroom(id: id);
+      nav.quitChatroomToActivity();
     }
 
     bool isFull = (activity.people >= activity.capacity);
+    bool isSingle = activity.people == 1;
 
     return Scaffold(
         appBar: AppBar(
@@ -152,11 +149,11 @@ class ActivityInfoDialog extends StatelessWidget {
                   height: 15,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     OutlinedButton(
                         onPressed: () {
-                          isFull? null : _join(context);
+                          isSingle? null : _quit(context);
                         },
                         style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -166,21 +163,10 @@ class ActivityInfoDialog extends StatelessWidget {
                             width: 2.0,
                           ),
                         ),
-                        child: Text(' Join ',
+                        child: Text(' Quit ',
                             style: TextStyle(
                                 fontSize: 20, color: Colors.purple.shade700))),
-                    OutlinedButton(
-                        onPressed: _decline,
-                        style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            side: const BorderSide(
-                              color: Colors.black,
-                              width: 2.0,
-                            )),
-                        child: Text('Decline',
-                            style: TextStyle(
-                                fontSize: 20, color: Colors.purple.shade700))),
+                    
                   ],
                 ),
               ],

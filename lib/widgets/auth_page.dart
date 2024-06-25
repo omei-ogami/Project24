@@ -60,7 +60,7 @@ class _AuthPageState extends State<AuthPage> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                          //  if (!_isLogin)
+                            if (!_isLogin)
                           //    UserImagePicker(
                           //      context: context,
                           //      validator: (pickedImage) {
